@@ -10,7 +10,7 @@ public class FlappyBirdFrame extends JFrame {
 		window.setTitle("Flappy Bird");
 		window.setSize(windowSize);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setResizable(false);
+		//window.setResizable(false);
 		GamePanel gamePanel = new GamePanel(windowSize);
 		gamePanel.addKeyListener(gamePanel);
 		gamePanel.setFocusable(true);

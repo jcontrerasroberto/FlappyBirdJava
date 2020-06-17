@@ -7,17 +7,19 @@ import javax.imageio.ImageIO;
 public class Bird {
 
 	private ArrayList<Image> birdsprites = new ArrayList<>();
-	private int width, height, xpos, ypos;
+	private BoxArea birdbox;
 	private Dimension windowSize;
 
 	public Bird(Dimension windowSize){
 		try {
+			this.windowSize = windowSize;
 			birdsprites.add(ImageIO.read(new File("../img/bird.png")));
 			birdsprites.add(ImageIO.read(new File("../img/birdup.png")));
-			width=80; height=55;
-			this.windowSize = windowSize;
-			xpos =(int) (this.windowSize.getWidth() - width) / 2;
-			ypos =(int) (this.windowSize.getHeight() / 2) - height;
+			int width=60; 
+			int height=45;
+			int xpos =(int) ((this.windowSize.getWidth() - width) / 2);
+			int ypos =(int) (this.windowSize.getHeight() / 2) - height;
+			birdbox = new BoxArea(width, height, xpos, ypos);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -34,26 +36,26 @@ public class Bird {
 	}
 
 	public int getWidth(){
-		return this.width;
+		return birdbox.getWidth();
 	}
 
 	public int getHeight(){
-		return this.height;
+		return birdbox.getHeight();
 	}
 
 	public int getXPos(){
-		return this.xpos;
+		return birdbox.getXPos();
 	}
 
 	public int getYPos(){
-		return this.ypos;
+		return birdbox.getYPos();
 	}
 
 	public void setXPos(int xpos){
-		this.xpos = xpos;
+		birdbox.setXPos(xpos);
 	}
 
 	public void setYPos(int ypos){
-		this.ypos = ypos;
+		birdbox.setYPos(ypos);
 	}
 }
