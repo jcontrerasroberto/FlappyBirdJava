@@ -11,13 +11,13 @@ public class Pipe {
 	private Dimension windowSize;
 	private static int width = 80;
 
-	public Pipe(Dimension windowSize, int heightup, int heightdown){
+	public Pipe(Dimension windowSize, int heightup, int heightdown, int xpos){
 		try {
 			uppipeimg = ImageIO.read(new File("../img/uppipe.png"));
 			downpipeimg = ImageIO.read(new File("../img/downpipe.png"));
 			this.windowSize = windowSize;
-			uppipebox = new BoxArea(width, heightup, this.windowSize.width+5, 0);
-			downpipebox = new BoxArea(width, heightdown, this.windowSize.width+5, this.windowSize.height-heightdown);
+			uppipebox = new BoxArea(width, heightup, xpos, 0);
+			downpipebox = new BoxArea(width, heightdown, xpos, this.windowSize.height-heightdown);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -30,9 +30,8 @@ public class Pipe {
 			
 	}
 
-	public int getWidth(boolean type){
-		if(type) return uppipebox.getWidth();
-		else return downpipebox.getWidth();
+	public int getWidth(){
+		return width;
 		
 	}
 
@@ -41,9 +40,8 @@ public class Pipe {
 		else return downpipebox.getHeight();
 	}
 
-	public int getXPos(boolean type){
-		if(type) return uppipebox.getXPos();
-		else return downpipebox.getXPos();
+	public int getXPos(){
+		return uppipebox.getXPos();
 	}
 
 	public int getYPos(boolean type){
