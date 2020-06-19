@@ -3,6 +3,7 @@ import java.awt.Image;
 import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import java.awt.Rectangle;
 
 public class Bird {
 
@@ -14,9 +15,9 @@ public class Bird {
 		try {
 			this.windowSize = windowSize;
 			birdsprites.add(ImageIO.read(new File("../img/bird.png")));
-			birdsprites.add(ImageIO.read(new File("../img/birdup.png")));
-			int width=60; 
-			int height=45;
+			birdsprites.add(ImageIO.read(new File("../img/birdupok.png")));
+			int width=53; 
+			int height=38;
 			int xpos =(int) ((this.windowSize.getWidth() - width) / 2);
 			int ypos =(int) (this.windowSize.getHeight() / 2) - height;
 			birdbox = new BoxArea(width, height, xpos, ypos);
@@ -33,6 +34,10 @@ public class Bird {
 			return this.birdsprites.get(1);
 		}
 		
+	}
+
+	public Rectangle getBoxArea(){
+		return birdbox.getBoxArea();
 	}
 
 	public int getWidth(){

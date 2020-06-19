@@ -3,6 +3,7 @@ import java.awt.Image;
 import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import java.awt.Rectangle;
 
 public class Pipe {
 	
@@ -28,6 +29,11 @@ public class Pipe {
 		if(type) return uppipeimg;
 		else return downpipeimg;
 			
+	}
+
+	public Rectangle getBoxArea(boolean type){
+		if(type) return uppipebox.getBoxArea();
+		else return downpipebox.getBoxArea();
 	}
 
 	public int getWidth(){

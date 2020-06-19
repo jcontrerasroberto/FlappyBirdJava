@@ -1,43 +1,49 @@
+
+import java.awt.Rectangle;
+
 public class BoxArea {
 	
 	private int width, height, xpos, ypos;
+	Rectangle r;
 	
 	public BoxArea(){
 		width=0;
 		height=0;
 		xpos=0;
 		ypos=0;
+		r = new Rectangle(ypos, xpos, width, height);
 	}
 	
 	public BoxArea(int width, int height, int xpos, int ypos){
-		this.width=width;
-		this.height=height;
-		this.xpos=xpos;
-		this.ypos=ypos;
+		r = new Rectangle(xpos, ypos, width, height);
+	}
+
+	public Rectangle getBoxArea(){
+		return r;
 	}
 	
 	public int getWidth(){
-		return width;
+		return (int)r.getWidth();
 	}
 	
 	public int getHeight(){
-		return height;
+		return (int)r.getHeight();
 	}
 	
 	public int getXPos(){
-		return xpos;
+		return (int)r.getX();
 	}
 	
 	public int getYPos(){
-		return ypos;
+		return (int)r.getY();
 	}
 	
 	public void setXPos(int xpos){
-		this.xpos = xpos;
+		r.setLocation(xpos, getYPos());
 	}
 
 	public void setYPos(int ypos){
-		this.ypos = ypos;
+		r.setLocation(getXPos(), ypos);
 	}
 }
 
