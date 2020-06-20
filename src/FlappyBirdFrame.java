@@ -7,14 +7,15 @@ public class FlappyBirdFrame extends JFrame {
 
 	public FlappyBirdFrame(){
 		JFrame window = new JFrame();
+		
+		GamePanel gamePanel = new GamePanel(windowSize);
+		gamePanel.addMouseListener(gamePanel);
+		gamePanel.setFocusable(true);
+		
 		window.setTitle("Flappy Bird");
 		window.setSize(windowSize);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//window.setResizable(false);
-		GamePanel gamePanel = new GamePanel(windowSize);
-		gamePanel.addMouseListener(gamePanel);
-		gamePanel.addKeyListener(gamePanel);
-		gamePanel.setFocusable(true);
+		window.setResizable(false);
 		window.add(gamePanel);
 		window.setVisible(true);
 	}

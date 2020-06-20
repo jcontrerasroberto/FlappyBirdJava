@@ -3,15 +3,10 @@ import java.awt.Rectangle;
 
 public class BoxArea {
 	
-	private int width, height, xpos, ypos;
 	Rectangle r;
 	
 	public BoxArea(){
-		width=0;
-		height=0;
-		xpos=0;
-		ypos=0;
-		r = new Rectangle(ypos, xpos, width, height);
+		r = new Rectangle(0, 0, 0, 0);
 	}
 	
 	public BoxArea(int width, int height, int xpos, int ypos){

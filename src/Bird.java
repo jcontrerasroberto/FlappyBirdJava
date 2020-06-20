@@ -19,7 +19,7 @@ public class Bird {
 			int width=53; 
 			int height=38;
 			int xpos =(int) ((this.windowSize.getWidth() - width) / 2);
-			int ypos =(int) (this.windowSize.getHeight() / 2) - height;
+			int ypos =(int) (this.windowSize.getHeight() / 2) - height - 100;
 			birdbox = new BoxArea(width, height, xpos, ypos);
 		} catch (Exception e) {
 			e.printStackTrace();

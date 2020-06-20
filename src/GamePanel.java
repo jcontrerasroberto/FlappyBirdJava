@@ -4,8 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.ArrayList;
@@ -18,11 +16,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.Rectangle;
 
-public class GamePanel extends JPanel implements KeyListener, MouseListener{
+public class GamePanel extends JPanel implements MouseListener{
 
 	private Image background, ground;
 	private Dimension windowSize;
-	private Image imgfbname;
+	private Image imgfbname,click;
 	private Bird bird;
 	private boolean start, changeImg, pressed=false;
 	private Timer movement, gravity;
@@ -39,6 +37,7 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener{
 			background = ImageIO.read(new File("../img/bg.png"));
 			ground = ImageIO.read(new File("../img/ground.png"));
 			imgfbname = ImageIO.read(new File("../img/imgfbname.png"));
+			click = ImageIO.read(new File("../img/click.png"));
 			init();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,7 +73,6 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener{
 				repaint();
 			}
 		});
-		movement.start();
 		gravity = new Timer(25, new ActionListener(){
 			public void actionPerformed(ActionEvent ae){
 				
@@ -84,6 +82,8 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener{
 				repaint();
 			}
 		});
+		
+		movement.start();
 		gravity.start();
 
 	}
@@ -93,7 +93,7 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener{
 		birdArea = new Area(bird.getBoxArea());
 		for(int i=0; i<5; i++){
 			int temp = getNewHeight();
-			if(i==0) pipes.add(new Pipe(windowSize, temp, windowSize.height-temp-140, windowSize.width+20));
+			if(i==0) pipes.add(new Pipe(windowSize, temp, windowSize.height-temp-140, windowSize.width+70));
 			else pipes.add(new Pipe(windowSize, temp, windowSize.height-temp-140, pipes.get(i-1).getXPos()+pipes.get(i-1).getWidth()+separation));			
 		}
 	}
@@ -114,16 +114,15 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(background, 0, 0,(int)(windowSize.getWidth()),(int) windowSize.getHeight(), this);
-
-		if(!start) g2.drawImage(imgfbname, 25, 50, 300, 70, this);
-		
-		
+		if(!start) {
+			g2.drawImage(imgfbname, 25, 50, 300, 70, this);
+			g2.drawImage(click, (int)windowSize.getWidth()/2 -5, (int)windowSize.getHeight()/2 - 70, 50, 50, this);
+		}
 		if(changeImg){
 			g2.drawImage(bird.getImage(changeImg), bird.getXPos() , bird.getYPos(), bird.getWidth()+5, bird.getHeight()+5, this);
 		}else{
 			g2.drawImage(bird.getImage(changeImg), bird.getXPos() , bird.getYPos(), bird.getWidth(), bird.getHeight(), this);
-		}	
-		g2.draw(birdArea);
+		}
 		for(Pipe p : pipes){
 			g2.drawImage(p.getImage(true), p.getXPos() , p.getYPos(true), p.getWidth(), p.getHeight(true), this);
 			g2.drawImage(p.getImage(false), p.getXPos() , p.getYPos(false), p.getWidth(), p.getHeight(false), this);
@@ -150,20 +149,6 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener{
 		repaint();
 	}
 
-	@Override
-	public void keyPressed(KeyEvent ke) {
-		if(ke.getKeyCode() == ke.VK_UP){
-			goUpEnd();
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent ke) {
-		if(ke.getKeyCode() == ke.VK_UP){
-			goUp();			
-		}
-	}
-
     public void mousePressed(MouseEvent e) {
 		goUpEnd();
 	}
@@ -175,6 +160,5 @@ public class GamePanel extends JPanel implements KeyListener, MouseListener{
     public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
 	public void mouseClicked(MouseEvent e) {}
-	@Override
-	public void keyTyped(KeyEvent ke) {}
+
 }
