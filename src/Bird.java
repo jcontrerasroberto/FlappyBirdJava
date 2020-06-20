@@ -10,14 +10,14 @@ public class Bird {
 	private ArrayList<Image> birdsprites = new ArrayList<>();
 	private BoxArea birdbox;
 	private Dimension windowSize;
+	private static final int width=53; 
+	private static final int height=38;
 
 	public Bird(Dimension windowSize){
 		try {
 			this.windowSize = windowSize;
 			birdsprites.add(ImageIO.read(new File("../img/bird.png")));
 			birdsprites.add(ImageIO.read(new File("../img/birdupok.png")));
-			int width=53; 
-			int height=38;
 			int xpos =(int) ((this.windowSize.getWidth() - width) / 2);
 			int ypos =(int) (this.windowSize.getHeight() / 2) - height - 100;
 			birdbox = new BoxArea(width, height, xpos, ypos);

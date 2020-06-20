@@ -15,7 +15,7 @@ public class FlappyBirdFrame extends JFrame {
 		window.setTitle("Flappy Bird");
 		window.setSize(windowSize);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setResizable(false);
+		window.setResizable(true);
 		window.add(gamePanel);
 		window.setVisible(true);
 	}
