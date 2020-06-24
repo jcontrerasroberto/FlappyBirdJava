@@ -18,17 +18,18 @@ import java.awt.Rectangle;
 
 public class GamePanel extends JPanel implements MouseListener{
 
-	private Image background, ground;
 	private Dimension windowSize;
-	private Image imgfbname, imgclick, imgscore, losebird, imgover, playbtn;
+	private Image imgfbname, imgclick, imgscore, losebird, imgover, playbtn, background, ground;
 	private Bird bird;
 	private boolean start, changeImg, pressed=false, end=false;
 	private Timer movement, gravity;
-	private int bgxpos=0;
+	private int bgxpos=0, score=0;
 	private ArrayList<Pipe> pipes = new ArrayList<>();
 	private static final int separation = 150;
 	private Area birdArea, pipeUpArea, pipeDownArea;
 	private BoxArea baplay, bascore;
+	private Pipe passed = null;
+	private Font bitFont;
 
 	public GamePanel(Dimension windowSize) {
 		this.windowSize = windowSize;
@@ -63,6 +64,10 @@ public class GamePanel extends JPanel implements MouseListener{
 							end=true;
 							movement.stop();
 						}
+						if(passed!=p && detectPass(p)) {
+							score++;
+							passed = p;
+						}	
 						if(p.getXPos()<= -p.getWidth()){
 							temp=p;
 						}
@@ -104,6 +109,15 @@ public class GamePanel extends JPanel implements MouseListener{
 			if(i==0) pipes.add(new Pipe(windowSize, temp, windowSize.height-temp-140, windowSize.width+70));
 			else pipes.add(new Pipe(windowSize, temp, windowSize.height-temp-140, pipes.get(i-1).getXPos()+pipes.get(i-1).getWidth()+separation));			
 		}
+		try {
+			//create the font to use. Specify the size!
+			bitFont = Font.createFont(Font.TRUETYPE_FONT, new File("../fonts/8bit.ttf")).deriveFont(40f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			//register the font
+			ge.registerFont(bitFont);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 	}
 	
 	public void reset(){
@@ -115,6 +129,7 @@ public class GamePanel extends JPanel implements MouseListener{
 		gravity.start();
 		pressed=false;
 		changeImg=false;
+		score=0;
 		repaint();
 	}	
 
@@ -122,6 +137,10 @@ public class GamePanel extends JPanel implements MouseListener{
 		birdArea = new Area(bird.getBoxArea());
 		return birdArea.intersects(p.getBoxArea(true)) || birdArea.intersects(p.getBoxArea(false)) || (bird.getYPos() >= (windowSize.getHeight()-bird.getHeight()-75)); 
 	}
+	
+	public boolean detectPass(Pipe p){
+		return bird.getXPos() > p.getXPos()+p.getWidth();
+	}	
 
 	public int getNewHeight(){
 		return (int)(Math.random()*(400-200+1)+200); 
@@ -170,8 +189,7 @@ public class GamePanel extends JPanel implements MouseListener{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(background, 0, 0,(int)(windowSize.getWidth() * 2),(int) windowSize.getHeight(), this);
-		
-		
+			
 		for(Pipe p : pipes){
 			g2.drawImage(p.getImage(true), p.getXPos() , p.getYPos(true), p.getWidth(), p.getHeight(true), this);
 			g2.drawImage(p.getImage(false), p.getXPos() , p.getYPos(false), p.getWidth(), p.getHeight(false), this);
@@ -195,6 +213,10 @@ public class GamePanel extends JPanel implements MouseListener{
 		if(!start) {
 			g2.drawImage(imgfbname, 25, 50, 300, 70, this);
 			g2.drawImage(imgclick, (int)windowSize.getWidth()/2 - 100, (int)windowSize.getHeight()/2 - 100, 200, 130, this);
+		}else{
+			g2.setColor(Color.WHITE);
+			g2.setFont(bitFont);
+			g2.drawString(""+score, 30, 70);
 		}
 	}
 }

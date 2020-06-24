@@ -16,8 +16,8 @@ public class Bird {
 	public Bird(Dimension windowSize){
 		try {
 			this.windowSize = windowSize;
-			birdsprites.add(ImageIO.read(new File("../img/bird.png")));
-			birdsprites.add(ImageIO.read(new File("../img/birdupok.png")));
+			birdsprites.add(ImageIO.read(new File("../img/birdg.png")));
+			birdsprites.add(ImageIO.read(new File("../img/birdupokg.png")));
 			int xpos =(int) ((this.windowSize.getWidth() - width) / 2);
 			int ypos =(int) (this.windowSize.getHeight() / 2) - height - 100;
 			birdbox = new BoxArea(width, height, xpos, ypos);

@@ -1,5 +1,6 @@
 import java.awt.Dimension;
 import javax.swing.JFrame;
+import javax.swing.ImageIcon;
 
 public class FlappyBirdFrame extends JFrame {
 
@@ -16,6 +17,7 @@ public class FlappyBirdFrame extends JFrame {
 		window.setSize(windowSize);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(true);
+		window.setIconImage(new ImageIcon("../img/bird.png").getImage());
 		window.add(gamePanel);
 		window.setVisible(true);
 	}
