@@ -94,7 +94,7 @@ public class FlappyBirdFrame extends JFrame {
         changeSkin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "ChangeSkin");
+                SkinFrame sk = new SkinFrame();
             }
         });
 		

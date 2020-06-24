@@ -4,6 +4,10 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import java.awt.Rectangle;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class Bird {
 
@@ -12,13 +16,15 @@ public class Bird {
 	private Dimension windowSize;
 	private static final int width=53; 
 	private static final int height=38;
-	private static String imgURL="../img/game/";
+	private static String imgURL="../img/skins/";
+	private String skin="yellow/";
 
 	public Bird(Dimension windowSize){
 		try {
+			setSkin();
 			this.windowSize = windowSize;
-			birdsprites.add(ImageIO.read(new File(imgURL+"birdg.png")));
-			birdsprites.add(ImageIO.read(new File(imgURL+"birdupokg.png")));
+			birdsprites.add(ImageIO.read(new File(imgURL+skin+"bird.png")));
+			birdsprites.add(ImageIO.read(new File(imgURL+skin+"birdup.png")));
 			int xpos =(int) ((this.windowSize.getWidth() - width) / 2);
 			int ypos =(int) (this.windowSize.getHeight() / 2) - height - 100;
 			birdbox = new BoxArea(width, height, xpos, ypos);
@@ -63,5 +69,17 @@ public class Bird {
 
 	public void setYPos(int ypos){
 		birdbox.setYPos(ypos);
+	}
+	
+	public void setSkin(){
+		try{
+			InputStream input = new FileInputStream("../.config/user.properties");
+			Properties prop = new Properties();
+			prop.load(input);
+			System.out.println(prop.getProperty("user.skin"));
+			skin=prop.getProperty("user.skin")+"/";
+		}catch(Exception e){
+			System.out.println("Error loading the skin type");
+		}
 	}
 }
