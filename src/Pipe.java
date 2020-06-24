@@ -11,11 +11,12 @@ public class Pipe {
 	private BoxArea uppipebox, downpipebox;
 	private Dimension windowSize;
 	private static int width = 80;
+	private static String imgURL="../img/game/";
 
 	public Pipe(Dimension windowSize, int heightup, int heightdown, int xpos){
 		try {
-			uppipeimg = ImageIO.read(new File("../img/uppipe.png"));
-			downpipeimg = ImageIO.read(new File("../img/downpipe.png"));
+			uppipeimg = ImageIO.read(new File(imgURL+"uppipe.png"));
+			downpipeimg = ImageIO.read(new File(imgURL+"downpipe.png"));
 			this.windowSize = windowSize;
 			uppipebox = new BoxArea(width, heightup, xpos, 0);
 			downpipebox = new BoxArea(width, heightdown, xpos, this.windowSize.height-heightdown);

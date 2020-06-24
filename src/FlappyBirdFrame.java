@@ -17,9 +17,10 @@ public class FlappyBirdFrame extends JFrame {
 	private Dimension windowGameSize = new Dimension(350,720);
 	private Font bitf;
 	private GraphicsEnvironment ge;
+	private JFrame window;
 
 	public FlappyBirdFrame(){
-		JFrame window = new JFrame();
+		window = new JFrame();
 
 		MenuPanel mp = createPanel();
 		window.setTitle("Flappy Bird");
@@ -57,9 +58,11 @@ public class FlappyBirdFrame extends JFrame {
 		offline.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JDialog offlinegame = new JDialog();
-                GamePanel gp = new GamePanel(windowGameSize);
-				offlinegame.add(gp); 
+                JDialog offlinegame = new JDialog(window, "Offline Flappy Bird", Dialog.ModalityType.APPLICATION_MODAL);
+                OfflineGamePanel offgamePanel = new OfflineGamePanel(windowGameSize);
+				offgamePanel.addMouseListener(offgamePanel);
+				offgamePanel.setFocusable(true);
+				offlinegame.add(offgamePanel); 
                 offlinegame.setSize(windowGameSize); 
                 offlinegame.setVisible(true); 
             }

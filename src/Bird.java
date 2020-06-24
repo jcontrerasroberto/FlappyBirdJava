@@ -12,12 +12,13 @@ public class Bird {
 	private Dimension windowSize;
 	private static final int width=53; 
 	private static final int height=38;
+	private static String imgURL="../img/game/";
 
 	public Bird(Dimension windowSize){
 		try {
 			this.windowSize = windowSize;
-			birdsprites.add(ImageIO.read(new File("../img/birdg.png")));
-			birdsprites.add(ImageIO.read(new File("../img/birdupokg.png")));
+			birdsprites.add(ImageIO.read(new File(imgURL+"birdg.png")));
+			birdsprites.add(ImageIO.read(new File(imgURL+"birdupokg.png")));
 			int xpos =(int) ((this.windowSize.getWidth() - width) / 2);
 			int ypos =(int) (this.windowSize.getHeight() / 2) - height - 100;
 			birdbox = new BoxArea(width, height, xpos, ypos);

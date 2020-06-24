@@ -16,7 +16,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.Rectangle;
 
-public class GamePanel extends JPanel implements MouseListener{
+public class OfflineGamePanel extends JPanel implements MouseListener{
 
 	private Dimension windowSize;
 	private Image imgfbname, imgclick, imgscore, losebird, imgover, playbtn, background, ground;
@@ -30,20 +30,21 @@ public class GamePanel extends JPanel implements MouseListener{
 	private BoxArea baplay, bascore;
 	private Pipe passed = null;
 	private Font bitFont;
+	private static String imgURL="../img/game/";
 
-	public GamePanel(Dimension windowSize) {
+	public OfflineGamePanel(Dimension windowSize) {
 		this.windowSize = windowSize;
 		start = false;
 		changeImg = false;
 		try {
-			background = ImageIO.read(new File("../img/bg.png"));
-			ground = ImageIO.read(new File("../img/ground.png"));
-			imgfbname = ImageIO.read(new File("../img/imgfbname.png"));
-			imgclick = ImageIO.read(new File("../img/click.png"));
-			imgscore = ImageIO.read(new File("../img/scores.png"));
-			losebird = ImageIO.read(new File("../img/losebird.png"));
-			imgover = ImageIO.read(new File("../img/gameover.png"));
-			playbtn = ImageIO.read(new File("../img/playbtn.png"));
+			background = ImageIO.read(new File(imgURL+"bg.png"));
+			ground = ImageIO.read(new File(imgURL+"ground.png"));
+			imgfbname = ImageIO.read(new File(imgURL+"imgfbname.png"));
+			imgclick = ImageIO.read(new File(imgURL+"click.png"));
+			imgscore = ImageIO.read(new File(imgURL+"scores.png"));
+			losebird = ImageIO.read(new File(imgURL+"losebird.png"));
+			imgover = ImageIO.read(new File(imgURL+"gameover.png"));
+			playbtn = ImageIO.read(new File(imgURL+"playbtn.png"));
 			init();
 		} catch (Exception e) {
 			e.printStackTrace();
