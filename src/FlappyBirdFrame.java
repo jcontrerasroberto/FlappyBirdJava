@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 public class FlappyBirdFrame extends JFrame {
 
 	private Dimension windowSize = new Dimension(700,500);
+	private Dimension windowGameSize = new Dimension(350,720);
 	private Font bitf;
 	private GraphicsEnvironment ge;
 
@@ -57,10 +58,9 @@ public class FlappyBirdFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JDialog offlinegame = new JDialog();
-                JLabel l = new JLabel("this is a dialog box"); 
-  
-				offlinegame.add(l); 
-                offlinegame.setSize(100, 100); 
+                GamePanel gp = new GamePanel(windowGameSize);
+				offlinegame.add(gp); 
+                offlinegame.setSize(windowGameSize); 
                 offlinegame.setVisible(true); 
             }
         });
