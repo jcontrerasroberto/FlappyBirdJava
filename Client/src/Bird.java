@@ -17,7 +17,7 @@ public class Bird {
 
 	public Bird(Dimension windowSize){
 		try {
-			setSkin();
+			skin = setSkin();
 			this.windowSize = windowSize;
 			birdsprites.add(ImageIO.read(new File(imgURL+skin+"bird.png")));
 			birdsprites.add(ImageIO.read(new File(imgURL+skin+"birdup.png")));
@@ -67,8 +67,8 @@ public class Bird {
 		birdbox.setYPos(ypos);
 	}
 	
-	public void setSkin(){
+	public String setSkin(){
 		UserProperties up = new UserProperties();
-		skin=up.getSkin()+"/";
+		return up.getSkin()+"/";
 	}
 }

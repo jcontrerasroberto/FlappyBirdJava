@@ -23,11 +23,11 @@ public class FlappyBirdFrame extends JFrame {
 		window = new JFrame();
 
 		MenuPanel mp = createPanel();
+		
 		window.setTitle("Flappy Bird");
 		window.setSize(windowSize);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(true);
-		window.setIconImage(new ImageIcon("../img/game/bird.png").getImage());
 		window.add(mp);
 		window.setResizable(false);
 		window.setVisible(true);
@@ -40,10 +40,8 @@ public class FlappyBirdFrame extends JFrame {
 		MenuPanel mp = new MenuPanel(windowSize);
 		mp.setLayout(null);
 		try {
-			//create the font to use. Specify the size!
 			bitf = Font.createFont(Font.TRUETYPE_FONT, new File("../fonts/8bit.ttf")).deriveFont(12f);
 			ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			//register the font
 			ge.registerFont(bitf);
 		} catch (Exception e) {
 			e.printStackTrace();

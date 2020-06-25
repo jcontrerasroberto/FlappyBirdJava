@@ -35,8 +35,6 @@ public class OfflineGamePanel extends JPanel implements MouseListener{
 
 	public OfflineGamePanel(Dimension windowSize) {
 		this.windowSize = windowSize;
-		start = false;
-		changeImg = false;
 		try {
 			background = ImageIO.read(new File(imgURL+"bg.png"));
 			ground = ImageIO.read(new File(imgURL+"ground.png"));
@@ -46,6 +44,11 @@ public class OfflineGamePanel extends JPanel implements MouseListener{
 			losebird = ImageIO.read(new File(imgURL+"losebird.png"));
 			imgover = ImageIO.read(new File(imgURL+"gameover.png"));
 			playbtn = ImageIO.read(new File(imgURL+"playbtn.png"));
+			//create the font to use. Specify the size!
+			bitFont = Font.createFont(Font.TRUETYPE_FONT, new File("../fonts/8bit.ttf")).deriveFont(40f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			//register the font
+			ge.registerFont(bitFont);
 			init();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -57,9 +60,7 @@ public class OfflineGamePanel extends JPanel implements MouseListener{
 				else bgxpos=bgxpos-4;
 	
 				if(start && !end){
-
 					Pipe temp = null;
-					
 					for(Pipe p : pipes){
 						p.setXPos(p.getXPos()-2);
 						if(detectCollision(p)){
@@ -68,19 +69,15 @@ public class OfflineGamePanel extends JPanel implements MouseListener{
 						}
 						if(passed!=p && detectPass(p)) {
 							score++;
-							passed = p;
-						}	
-						if(p.getXPos()<= -p.getWidth()){
-							temp=p;
+							passed=p;
 						}
+						if(p.getXPos()<= -p.getWidth()) temp=p;
 					}
 					if(temp!=null){
 						pipes.remove(pipes.indexOf(temp));
-						int tempheight = getNewHeight();
-						pipes.add(new Pipe(windowSize, tempheight, windowSize.height-tempheight-140, pipes.get(pipes.size()-1).getXPos()+pipes.get(pipes.size()-1).getWidth()+separation));
+						generatePipe();
 						temp = null;
 					}
-					
 				}
 				repaint();
 			}
@@ -88,54 +85,48 @@ public class OfflineGamePanel extends JPanel implements MouseListener{
 		gravity = new Timer(25, new ActionListener(){
 			public void actionPerformed(ActionEvent ae){
 			
-				if(!pressed && start){
-					bird.setYPos(bird.getYPos()+5);
-				}
+				if(!pressed && start) bird.setYPos(bird.getYPos()+5);
 				if(end && bird.getYPos() >= (windowSize.getHeight()-bird.getHeight()-75)) gravity.stop();
 				repaint();
 			}
 		});
-		
 		movement.start();
 		gravity.start();
+		
 
 	}
 
 	public void init(){
+		pipes.clear();
+		end=false;
+		start = false;
+		changeImg = false;
+		pressed=false;
+		changeImg=false;
+		score=0;
 		bird = new Bird(windowSize);
 		birdArea = new Area(bird.getBoxArea());
 		baplay = new BoxArea(150, 100, 25 , (int)windowSize.getHeight() - 400);
 		bascore = new BoxArea(150, 100, 175 , (int)windowSize.getHeight() - 400);
+		maxscore=getMaxScore();
 		for(int i=0; i<5; i++){
-			int temp = getNewHeight();
-			if(i==0) pipes.add(new Pipe(windowSize, temp, windowSize.height-temp-140, windowSize.width+70));
-			else pipes.add(new Pipe(windowSize, temp, windowSize.height-temp-140, pipes.get(i-1).getXPos()+pipes.get(i-1).getWidth()+separation));			
+			generatePipe();
 		}
-		try {
-			//create the font to use. Specify the size!
-			bitFont = Font.createFont(Font.TRUETYPE_FONT, new File("../fonts/8bit.ttf")).deriveFont(40f);
-			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			//register the font
-			ge.registerFont(bitFont);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		maxscore=getMaxScore(); 
 	}
 	
 	public void reset(){
-		pipes.clear();
-		start = false;
-		end = false;
 		init();
 		movement.start();
 		gravity.start();
-		pressed=false;
-		changeImg=false;
-		score=0;
 		repaint();
 	}	
 
+	public void generatePipe(){
+		int temp = getNewHeight();
+		if(pipes.size()==0) pipes.add(new Pipe(windowSize, temp, windowSize.height-temp-140, windowSize.width+70));
+		else pipes.add(new Pipe(windowSize, temp, windowSize.height-temp-140, pipes.get(pipes.size()-1).getXPos()+pipes.get(pipes.size()-1).getWidth()+separation));
+	}
+		
 	public boolean detectCollision(Pipe p){
 		birdArea = new Area(bird.getBoxArea());
 		return birdArea.intersects(p.getBoxArea(true)) || birdArea.intersects(p.getBoxArea(false)) || (bird.getYPos() >= (windowSize.getHeight()-bird.getHeight()-75)); 
@@ -152,14 +143,11 @@ public class OfflineGamePanel extends JPanel implements MouseListener{
 	public void goUp(){
 		if(!end){
 			if(!start) start=!start;
+			if(bird.getYPos()>10) bird.setYPos(bird.getYPos()-60);
 			changeImg=!changeImg;
 			pressed=false;
-			if(bird.getYPos()>10) bird.setYPos(bird.getYPos()-60);
 			repaint();
-		}else{
-			pressed=false;
-		}		
-		
+		}else pressed=false;		
 	}
 
 	public void goUpEnd(){
@@ -168,24 +156,8 @@ public class OfflineGamePanel extends JPanel implements MouseListener{
 			changeImg=!changeImg;
 			pressed=true;
 			repaint();
-		}else{
-			pressed=false;
-		}			
+		}else pressed=false;	
 	}
-
-    public void mousePressed(MouseEvent e) {
-		if(!end) goUpEnd();
-	}
-
-    public void mouseReleased(MouseEvent e) {
-		if(!end) goUp();
-		if(end && baplay.getBoxArea().contains(e.getX(), e.getY())) reset();
-		if(end && bascore.getBoxArea().contains(e.getX(), e.getY())) new ScoresTable();
-	}
-
-    public void mouseEntered(MouseEvent e) {}
-	public void mouseExited(MouseEvent e) {}
-	public void mouseClicked(MouseEvent e) {}
 	
 	public int getMaxScore(){
 		UserProperties up = new UserProperties();
@@ -195,9 +167,9 @@ public class OfflineGamePanel extends JPanel implements MouseListener{
 	public void setMaxScore(){
 		JOptionPane.showMessageDialog(null, "You've break the record!");
 		String nickname = JOptionPane.showInputDialog("Write your nickname to save the record");
+		if(nickname==null || nickname.equals("")) nickname="Unknown";
 		UserProperties up = new UserProperties();
 		up.setMaxScore(""+score);
-		if(nickname==null || nickname.equals("")) nickname="Unknown";
 		up.setMaxNick(nickname);
 		up.saveProp();
 		saveScore(nickname);
@@ -205,18 +177,13 @@ public class OfflineGamePanel extends JPanel implements MouseListener{
 	
 	public void saveScore(){
 		String nickname = JOptionPane.showInputDialog("Write your nickname to save your score");
-		if(nickname==null || nickname.equals("")) nickname="Unknown";
-		ScoreList sl = new ScoreList();
-		sl.addScore(new Score(nickname, score));
-		sl.saveScores();
-		sl.printScores();
+		if(nickname!=null && !nickname.equals("")) saveScore(nickname);
 	}
 	
 	public void saveScore(String nickname){
 		ScoreList sl = new ScoreList();
 		sl.addScore(new Score(nickname, score));
 		sl.saveScores();
-		sl.printScores();
 	}
 
 	public void endGame(){
@@ -267,4 +234,18 @@ public class OfflineGamePanel extends JPanel implements MouseListener{
 			g2.drawString(""+score, 30, 70);
 		}
 	}
+	
+	public void mousePressed(MouseEvent e) {
+		if(!end) goUpEnd();
+	}
+
+    public void mouseReleased(MouseEvent e) {
+		if(!end) goUp();
+		if(end && baplay.getBoxArea().contains(e.getX(), e.getY())) reset();
+		if(end && bascore.getBoxArea().contains(e.getX(), e.getY())) new ScoresTable();
+	}
+
+    public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mouseClicked(MouseEvent e) {}
 }

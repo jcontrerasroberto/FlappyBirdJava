@@ -41,11 +41,6 @@ public class ScoreList {
 			scores = (ArrayList<Score>)in.readObject(); 
 			in.close(); 
 			file.close();
-			if (scores==null)
-			{
-				System.out.println("NULL");
-			}
-			System.out.println(scores.size());
 		}catch(Exception e){
 			System.out.println("Error");
 		}	
@@ -54,18 +49,12 @@ public class ScoreList {
 	private void serialization(){
 		try
         {    
-            //Saving of object in a file 
             FileOutputStream file = new FileOutputStream(filename); 
             ObjectOutputStream out = new ObjectOutputStream(file); 
-              
-            // Method for serialization of object 
-            out.writeObject(scores); 
-              
+            out.writeObject(scores);
             out.close(); 
             file.close(); 
-              
             System.out.println("Object has been serialized"); 
-  
         } 
         catch(Exception ex) 
         { 
