@@ -59,15 +59,9 @@ public class SkinFrame extends JFrame{
             public void actionPerformed(ActionEvent e) {
 				if(!skin.getSelectedItem().toString().equals("")){
 					System.out.println(skin.getSelectedItem().toString());
-					try{
-						OutputStream output = new FileOutputStream("../.config/user.properties");
-						Properties prop = new Properties();
-						prop.setProperty("user.skin", skin.getSelectedItem().toString().toLowerCase());
-						prop.store(output, null);
-						System.out.println(prop);
-					}catch(Exception ep){
-						System.out.println("Error changing the skin");
-					}
+					UserProperties up = new UserProperties();
+					up.setSkin(skin.getSelectedItem().toString().toLowerCase());
+					up.saveProp();
 					window.dispose();
 				}	
                 

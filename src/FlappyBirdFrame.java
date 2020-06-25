@@ -58,7 +58,7 @@ public class FlappyBirdFrame extends JFrame {
 		offline.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JDialog offlinegame = new JDialog(window, "Offline Flappy Bird", Dialog.ModalityType.APPLICATION_MODAL);
+                JDialog offlinegame = new JDialog(window, "Offline Flappy Bird");//, Dialog.ModalityType.APPLICATION_MODAL);
                 OfflineGamePanel offgamePanel = new OfflineGamePanel(windowGameSize);
 				offgamePanel.addMouseListener(offgamePanel);
 				offgamePanel.setFocusable(true);
