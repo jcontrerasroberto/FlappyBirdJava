@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.Rectangle;
+import javax.swing.JOptionPane;
 
 public class OfflineGamePanel extends JPanel implements MouseListener{
 
@@ -23,7 +24,7 @@ public class OfflineGamePanel extends JPanel implements MouseListener{
 	private Bird bird;
 	private boolean start, changeImg, pressed=false, end=false;
 	private Timer movement, gravity;
-	private int bgxpos=0, score=0;
+	private int bgxpos=0, score=0, maxscore;
 	private ArrayList<Pipe> pipes = new ArrayList<>();
 	private static final int separation = 150;
 	private Area birdArea, pipeUpArea, pipeDownArea;
@@ -55,15 +56,15 @@ public class OfflineGamePanel extends JPanel implements MouseListener{
 				if(bgxpos <= -(int)windowSize.getWidth()) bgxpos=0;
 				else bgxpos=bgxpos-4;
 	
-				if(start){
+				if(start && !end){
 
 					Pipe temp = null;
 					
 					for(Pipe p : pipes){
 						p.setXPos(p.getXPos()-2);
 						if(detectCollision(p)){
-							end=true;
-							movement.stop();
+							endGame();
+							break;
 						}
 						if(passed!=p && detectPass(p)) {
 							score++;
@@ -118,7 +119,8 @@ public class OfflineGamePanel extends JPanel implements MouseListener{
 			ge.registerFont(bitFont);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
+		maxscore=getMaxScore(); 
 	}
 	
 	public void reset(){
@@ -178,13 +180,52 @@ public class OfflineGamePanel extends JPanel implements MouseListener{
     public void mouseReleased(MouseEvent e) {
 		if(!end) goUp();
 		if(end && baplay.getBoxArea().contains(e.getX(), e.getY())) reset();
-		if(end && bascore.getBoxArea().contains(e.getX(), e.getY())) System.out.println("Score end");
+		if(end && bascore.getBoxArea().contains(e.getX(), e.getY())) new ScoresTable();
 	}
 
     public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
 	public void mouseClicked(MouseEvent e) {}
+	
+	public int getMaxScore(){
+		UserProperties up = new UserProperties();
+		return Integer.parseInt(up.getMaxScore());
+	}
+	
+	public void setMaxScore(){
+		JOptionPane.showMessageDialog(null, "You've break the record!");
+		String nickname = JOptionPane.showInputDialog("Write your nickname to save the record");
+		UserProperties up = new UserProperties();
+		up.setMaxScore(""+score);
+		if(nickname==null || nickname.equals("")) nickname="Unknown";
+		up.setMaxNick(nickname);
+		up.saveProp();
+		saveScore(nickname);
+	}
+	
+	public void saveScore(){
+		String nickname = JOptionPane.showInputDialog("Write your nickname to save your score");
+		if(nickname==null || nickname.equals("")) nickname="Unknown";
+		ScoreList sl = new ScoreList();
+		sl.addScore(new Score(nickname, score));
+		sl.saveScores();
+		sl.printScores();
+	}
+	
+	public void saveScore(String nickname){
+		ScoreList sl = new ScoreList();
+		sl.addScore(new Score(nickname, score));
+		sl.saveScores();
+		sl.printScores();
+	}
 
+	public void endGame(){
+		end=true;
+		movement.stop();
+		if(score>maxscore) setMaxScore();
+		else if(score>0) saveScore();
+	}
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -201,6 +242,12 @@ public class OfflineGamePanel extends JPanel implements MouseListener{
 				g2.drawImage(bird.getImage(changeImg), bird.getXPos() , bird.getYPos(), bird.getWidth()+5, bird.getHeight()+5, this);
 			}else{
 				g2.drawImage(bird.getImage(changeImg), bird.getXPos() , bird.getYPos(), bird.getWidth(), bird.getHeight(), this);
+			}
+			if(start){
+				g2.setColor(Color.BLUE);
+				Font bitfs = bitFont.deriveFont(bitFont.getSize() * 0.3F);
+				g2.setFont(bitfs);
+				g2.drawString("MaxScore: "+maxscore, 30, (int)windowSize.getHeight()-100);
 			}
 		}else{
 			g2.drawImage(losebird, bird.getXPos() , bird.getYPos(), bird.getHeight()+15, bird.getWidth()+25, this);
