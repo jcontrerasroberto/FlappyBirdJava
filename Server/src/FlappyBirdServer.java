@@ -1,11 +1,11 @@
- 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.*;
+import java.net.InetAddress;
+
 
 public class FlappyBirdServer extends UnicastRemoteObject {
 	
@@ -16,7 +16,9 @@ public class FlappyBirdServer extends UnicastRemoteObject {
 	}
 
 	public void startServer() throws RemoteException, AlreadyBoundException{
-		System.setProperty("java.rmi.server.hostname","192.168.137.87");
+		ServerProperties sp = new ServerProperties();
+		System.setProperty("java.rmi.server.hostname",sp.getIP()); //IP of server
+		System.out.println(System.getProperty("java.rmi.server.hostname"));
 		ImplementRMI send = new ImplementRMI();
 		Registry registry = LocateRegistry.createRegistry(PUERTO);
 		registry.bind("OnlineMethods", (FlappyBirdOnline) send);
