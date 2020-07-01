@@ -149,14 +149,6 @@ public class OnlineGamePanel extends JPanel implements MouseListener{
 		} catch(Exception e) {}
 	}
 	
-	public void reset(){
-		init();
-		movement.start();
-		gravity.start();
-		gameControl.start();
-		repaint();
-	}	
-
 	public void generatePipe(){
 		int temp = getNewHeight();
 		if(pipes.size()==0) pipes.add(new Pipe(windowSize, temp, windowSize.height-temp-140, windowSize.width+70));
@@ -242,8 +234,6 @@ public class OnlineGamePanel extends JPanel implements MouseListener{
 		}else{
 			g2.drawImage(losebird, bird.getXPos() , bird.getYPos(), bird.getHeight()+15, bird.getWidth()+25, this);
 			g2.drawImage(imgover, 25, 70, 300, 125, this);
-			g2.drawImage(playbtn, 25 , (int)windowSize.getHeight() - 400, 150, 100, this);
-			g2.drawImage(imgscore, 175 , (int)windowSize.getHeight() - 400, 150, 100, this);
 		}	
 		
 		g2.drawImage(ground, 0, (int)(windowSize.getHeight())-60,(int)(windowSize.getWidth() * 2),50, this);
@@ -265,7 +255,8 @@ public class OnlineGamePanel extends JPanel implements MouseListener{
 		
 		for(Player p : players.values()){
 			g2.setColor(Color.RED);
-			g2.fillRect(375, yposs-40, 250, 50);
+			//g2.fillRect(375, yposs-40, 250, 50);
+			g2.drawImage(tablerobg, 375, yposs-40, 250, 50, this);
 			g2.setColor(Color.BLACK);
 			g2.drawString(p.getNickname()+": "+p.getScore(), 400, yposs-10);
 			yposs=yposs+75;
@@ -278,8 +269,6 @@ public class OnlineGamePanel extends JPanel implements MouseListener{
 
     public void mouseReleased(MouseEvent e) {
 		if(!end) goUp();
-		if(end && baplay.getBoxArea().contains(e.getX(), e.getY())) reset();
-		if(end && bascore.getBoxArea().contains(e.getX(), e.getY())) new ScoresTable();
 	}
 
     public void mouseEntered(MouseEvent e) {}
