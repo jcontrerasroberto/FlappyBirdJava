@@ -9,6 +9,7 @@ import java.rmi.*;
 public class ImplementRMI extends UnicastRemoteObject implements FlappyBirdOnline{
 	
 	private HashMap<String, Player> players = new HashMap<String, Player>();
+	private int numberOfPlayers =0;
 	
 	public ImplementRMI() throws RemoteException, AlreadyBoundException{
 		System.out.println("Creación de la implementación");
@@ -19,6 +20,7 @@ public class ImplementRMI extends UnicastRemoteObject implements FlappyBirdOnlin
 		String ip = "";
 		try{
 			ip = getClientHost().toString();
+			System.out.println("Request from "+ip);
 		}catch(Exception e){
 			System.out.println("Unable to get ip");
 		}
@@ -29,13 +31,16 @@ public class ImplementRMI extends UnicastRemoteObject implements FlappyBirdOnlin
 	private boolean addPlayer(String nickname, String ip){
 		if(!players.containsKey(nickname)){
 			players.put(nickname, new Player(nickname, ip, 0, true));
+			System.out.println(nickname);
+			numberOfPlayers++;
 			return true;
 		}else return false;
 	}
 	
 	@Override
 	public Player getPlayer(String nickname){
-		return players.get(nickname);
+		if(players.containsKey(nickname)) return players.get(nickname);
+		else return null;
 	}
 	
 	@Override
@@ -62,10 +67,37 @@ public class ImplementRMI extends UnicastRemoteObject implements FlappyBirdOnlin
 		if(!keepGaming()){
 			Player temp = null;
 			for(Player p : players.values()){
-				if(temp==null && p.getScore()>0) temp=p;
-				if(p.getScore()>temp.getScore() && p.getScore()>0) temp=p;
+				if(temp==null) temp=p;
+				if(p.getScore()>temp.getScore()) temp=p;
 			}
+			System.out.println("El ganador es "+temp.getNickname());
 			return temp;
 		}else return null;
+	}
+
+	@Override
+	public boolean saveOnlineGame(Player winner){
+		DBProcess db = new DBProcess();
+		try {
+			boolean ok = db.insertGame(winner.getNickname(), winner.getScore(), numberOfPlayers);
+			db.close();
+			numberOfPlayers=0;
+			return ok;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	private void printPlayers(){
+		for(Player p : players.values()){
+			System.out.println(p.getNickname() +" : " + p.getScore());
+		}
+	}
+	
+	@Override
+	public void exitGame(Player p){
+		players.remove(p.getNickname());
+		System.out.println("Salió "+p.getNickname());
+		System.out.println(players.size());
 	}
 }

@@ -76,7 +76,23 @@ public class FlappyBirdFrame extends JFrame {
         online.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Online Mode");
+                RMICon per = new RMICon();
+                String nick = JOptionPane.showInputDialog("Write your nickname to join the Game");
+				if(nick!=null && !nick.equals("")){
+					try{
+						if(per.getPermission(nick)){
+						JDialog onlinegame = new JDialog(window, "Online Flappy Bird");
+						OnlineGamePanel ongamePanel = new OnlineGamePanel(windowGameSize,nick);
+						ongamePanel.addMouseListener(ongamePanel);
+						ongamePanel.setFocusable(true);
+						onlinegame.add(ongamePanel); 
+						Dimension dtemp = new Dimension((int)windowGameSize.getWidth()+300,(int) windowGameSize.getHeight());
+						onlinegame.setSize(dtemp); 
+						onlinegame.setVisible(true);
+						}
+					}catch(Exception eX){
+					}
+				}              
             }
         });
 
