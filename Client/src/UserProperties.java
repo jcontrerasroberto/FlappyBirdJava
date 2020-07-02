@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.io.FileInputStream;
 
 public class UserProperties {
+	
 	private Properties userprop = new Properties();
 	private InputStream read;
 
@@ -47,7 +48,7 @@ public class UserProperties {
 		try{
 			userprop.store(new FileOutputStream("../.config/user.properties"), null);
 		}catch(Exception e){
-	
+			System.out.println("Error saving the properties");
 		}		
 	}
 }

@@ -31,7 +31,7 @@ public class ServerProperties {
 		try{
 			serverprop.store(new FileOutputStream("../.config/server.properties"), null);
 		}catch(Exception e){
-	
+			System.out.println("Error saving server properties");
 		}		
 	}
 }

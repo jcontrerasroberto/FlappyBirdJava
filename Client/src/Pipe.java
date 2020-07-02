@@ -64,6 +64,5 @@ public class Pipe {
 	public void setYPos(int ypos){
 		uppipebox.setYPos(ypos);
 	}
-
 	
 }

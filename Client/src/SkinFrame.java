@@ -30,6 +30,7 @@ public class SkinFrame extends JFrame{
 		lblimagename.setPreferredSize(new Dimension(200,25));
         requestarea.add(lblname);
         requestarea.add(skin);
+        
         File[] directories = new File(URLSkins).listFiles(File::isDirectory);
         for (File f : directories) {
 			try{
@@ -37,6 +38,7 @@ public class SkinFrame extends JFrame{
 				skins.put(f.getName().toUpperCase(), temp);
 				skin.addItem(f.getName().toUpperCase());
 			}catch(Exception e){
+				System.out.println("Error loading images of skins");
 			}
 	    }
 	    
