@@ -41,8 +41,8 @@ public class SkinFrame extends JFrame{
         JLabel lblname = new JLabel("SKINS");
         JComboBox skin = new JComboBox();
         skin.setPreferredSize(new Dimension(250, 20));
-        JLabel lblimagename = new JLabel("Imagen: ");
-		lblimagename.setPreferredSize(new Dimension(200,25));
+        //JLabel lblimagename = new JLabel("Imagen: ");
+		//lblimagename.setPreferredSize(new Dimension(200,25));
         requestarea.add(lblname);
         requestarea.add(skin);
         
