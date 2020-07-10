@@ -18,22 +18,34 @@ import java.rmi.registry.Registry;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
+ /*
+ * CLASE RMICon
+ * 
+ * Obtiene la implementación del server y permite ejecutar los méttodos remotos.
+ * Ayuda a controlar las conexiones RMI
+ * 
+ * */
+
 public class RMICon {
 	
 	private FlappyBirdOnline inter;
 	private static int serverPort = 9999;
 	
+	//Constructor. Crea un registro del puerto y la dirección del server especificada en ServerProperties
 	public RMICon(){
 		
 		ServerProperties sp = new ServerProperties();
 		String serverAddres = sp.getIP();
 		try {
 			Registry registry = LocateRegistry.getRegistry(serverAddres, serverPort);
-			inter = (FlappyBirdOnline) (registry.lookup("OnlineMethods"));
+			inter = (FlappyBirdOnline) (registry.lookup("OnlineMethods")); //Obtenemos la implementación del servidor
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	// A partir de aquí, cada método solo ejecuta el método remoto correspondiente
+	
 	
 	public boolean getPermission(String nickname) throws RemoteException{
 		return inter.getPermission(nickname);
