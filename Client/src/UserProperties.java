@@ -19,11 +19,20 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.FileInputStream;
 
+ /*
+ * CLASE ServerProperties
+ * 
+ * Esta clase sirve para leer y editar el archivo user.properties ubicado en la carpeta .config el cual contiene 
+ 	la configuración actual del usuario. Skin, máximo puntaje
+ * 
+ * */
+
 public class UserProperties {
 	
 	private Properties userprop = new Properties();
 	private InputStream read;
 
+	//Constructor que se encarga de abrir el archivo y cargarlo al objeto Properties
 	public UserProperties(){
 		
 		try {
@@ -35,6 +44,7 @@ public class UserProperties {
 		
 	}
 
+	//Getter y setters para cada propiedad del archivo
 	public String getSkin(){
 		return userprop.getProperty("user.skin");
 	}
@@ -59,6 +69,7 @@ public class UserProperties {
 		userprop.setProperty("user.maxnick", nick);
 	}
 
+	//Método que sirve para guardar el archivo con los nuevos valores
 	public void saveProp(){
 		try{
 			userprop.store(new FileOutputStream("../.config/user.properties"), null);

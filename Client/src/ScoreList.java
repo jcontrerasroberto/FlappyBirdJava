@@ -12,6 +12,8 @@
  * TOLEDO ESPINOSA CRISTINA ALINE
  * 
  * */
+
+
  
 import java.util.ArrayList;
 import java.io.File;
@@ -19,36 +21,47 @@ import java.io.*;
 import java.io.Serializable;
 import java.util.*;
 
+/*
+	Class ScoreList
+
+	Esta clase ayuda a manejar un archivo serializado el cual contiene los datos de todos los puntajes obtenidos en el modo offline
+
+
+*/
+
 public class ScoreList {
 
 	private ArrayList<Score> scores = new ArrayList<>();
-	private static final String configURL="../.config/"; 
+	private static final String configURL="../.config/"; //Path donde esta el archivo
 	private File bdfile = null;
 	private String filename;
 
+	//Constructor. Ejecutamos el método deserialization()
 	public ScoreList(){
-		filename=configURL+"scores.ser";
+		filename=configURL+"scores.ser"; //Path con el nombre del archivo incluido
 		deserialization();
 	}
 	
+
 	public void addScore(Score s){
-		scores.add(s);
+		scores.add(s); //Añadimos un puntaje al ArrayList
 	}
 	
+	//Getter para el arraylist de puntajes
 	public ArrayList<Score> getScores(){
-		return scores;
+		return scores; 
 	}
 	
-	public void printScores(){
-		for(Score s: scores){
-			System.out.println(s.getNickname()+": "+s.getScore());
-		}
-	}
-	
+	//public void saveScores(). Ejecutamos el metodo serialization
 	public void saveScores(){
 		serialization();
 	}
 	
+	/*
+		private void deserialization()
+
+		Abrimos el archivo y obtenemos lo que contiene que es un ArrayList de Scores
+	*/
 	private void deserialization(){
 		try{
 			FileInputStream file = new FileInputStream(filename); 
@@ -61,6 +74,11 @@ public class ScoreList {
 		}	
 	}
 	
+	/*
+		private void serialization()
+
+		Escribimos los nuevos valores en el archivo en forma binaria
+	*/
 	private void serialization(){
 		try
         {    

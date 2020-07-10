@@ -21,19 +21,35 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import java.awt.Rectangle;
 
+/*
+	Class Bird
+
+	Esta clase define las propiedades del pajaro. Su boxarea, su tamaño y la skin
+
+
+*/
+
 public class Bird {
 
 	private ArrayList<Image> birdsprites = new ArrayList<>();
 	private BoxArea birdbox;
 	private Dimension windowSize;
+	//Ancho y alto por default
 	private static final int width=53; 
 	private static final int height=38;
 	private static String imgURL="../img/skins/";
+	//Skin por default
 	private String skin="yellow/";
 
+	/*
+		Constructor
+		Cargamos los sprites del pajaro
+		Calculamos su posición de acuerdo al tamaño de la ventana
+		Creamos el boxarea con esos valores
+	*/
 	public Bird(Dimension windowSize){
 		try {
-			skin = setSkin();
+			skin = setSkin(); //Obtenemos el nombre de la skin actual
 			this.windowSize = windowSize;
 			birdsprites.add(ImageIO.read(new File(imgURL+skin+"bird.png")));
 			birdsprites.add(ImageIO.read(new File(imgURL+skin+"birdup.png")));
@@ -46,6 +62,12 @@ public class Bird {
 
 	}
 
+
+	/*
+		public Image getImage(boolean toup)
+
+		Dependiendo que recibamos, devuelve la imagen (normal o inclinada)
+	*/
 	public Image getImage(boolean toup){
 		if(!toup){
 			return this.birdsprites.get(0);
@@ -54,6 +76,10 @@ public class Bird {
 		}
 		
 	}
+
+	/*
+		Getter y setter para cada propiedad del boxArea
+	*/
 
 	public Rectangle getBoxArea(){
 		return birdbox.getBoxArea();
@@ -83,6 +109,13 @@ public class Bird {
 		birdbox.setYPos(ypos);
 	}
 	
+
+	/*
+		public String setSkin()
+		Colocamos el valor de la skin a la actual escogida por el usuario. Este valor se encuentra en el archivo
+		user.properties
+
+	*/	
 	public String setSkin(){
 		UserProperties up = new UserProperties();
 		return up.getSkin()+"/";

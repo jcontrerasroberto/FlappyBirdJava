@@ -26,18 +26,30 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
+/*
+	Class SkinFrame
+
+	Esta clase crea la interfaz donde el usuario puede escoger su skin
+
+
+*/
+
 public class SkinFrame extends JFrame{
 	
-	private JLabel thumb = new JLabel();
-	private static String URLSkins="../img/skins";
+	private JLabel thumb = new JLabel(); //Label donde se colocara la imagen de previsualización
+	private static String URLSkins="../img/skins"; //Ruta donde se encuentran las skins
 	
+	/*Constructor
+		
+
+	*/
 	public SkinFrame(){
 		
 		HashMap<String, ImageIcon> skins = new HashMap<String, ImageIcon>();
 		
-		JFrame window = new JFrame("Choose a skin");
+		JFrame window = new JFrame("Choose a skin"); //Creación del frame
         
-        JPanel requestarea = new JPanel();
+        JPanel requestarea = new JPanel(); //Un JPanel donde se colocara un título y un combo box
         JLabel lblname = new JLabel("SKINS");
         JComboBox skin = new JComboBox();
         skin.setPreferredSize(new Dimension(250, 20));
@@ -46,12 +58,13 @@ public class SkinFrame extends JFrame{
         requestarea.add(lblname);
         requestarea.add(skin);
         
+        //Obtenemos los nombres de todas las skins disponibles
         File[] directories = new File(URLSkins).listFiles(File::isDirectory);
         for (File f : directories) {
 			try{
 				ImageIcon temp = new ImageIcon(f.toString()+"/bird.png");
-				skins.put(f.getName().toUpperCase(), temp);
-				skin.addItem(f.getName().toUpperCase());
+				skins.put(f.getName().toUpperCase(), temp); //Por cada skin guardamos el nombre y la imagen en el hashmap
+				skin.addItem(f.getName().toUpperCase()); //Añadimos el nombre al combo box
 			}catch(Exception e){
 				System.out.println("Error loading images of skins");
 			}
@@ -60,6 +73,7 @@ public class SkinFrame extends JFrame{
 
 		skin.setSelectedItem(0);
 
+		//Listener para el combo box. Cada que se seleccione una diferente skin cambiemos la imagen de previsualizacion
 		skin.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -69,17 +83,19 @@ public class SkinFrame extends JFrame{
 		});
 		
         JPanel imagearea = new JPanel();
-		JButton save = new JButton("Choose");
+
+		JButton save = new JButton("Choose"); //Boton para guardar selección
 	    save.setPreferredSize(new Dimension(280, 25));
 	    save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	//Cuando se apriete el boton
 				if(!skin.getSelectedItem().toString().equals("")){
 					System.out.println(skin.getSelectedItem().toString());
 					UserProperties up = new UserProperties();
-					up.setSkin(skin.getSelectedItem().toString().toLowerCase());
-					up.saveProp();
-					window.dispose();
+					up.setSkin(skin.getSelectedItem().toString().toLowerCase()); //Cambiamos el user properties con la nueva skin
+					up.saveProp(); //Guardamos el archivo modificado
+					window.dispose(); //Cerramos la ventana
 				}	
                 
             }
