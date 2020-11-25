@@ -1,7 +1,6 @@
 # Flappy Bird JAVA
 
 ![alt text](https://raw.githubusercontent.com/jcontrerasroberto/FlappyBirdJava/master/Captures/menu.png)
-![alt text](https://raw.githubusercontent.com/jcontrerasroberto/FlappyBirdJava/master/Captures/game.png)
 
 This is a Flappy Bird clone coded in Java with some interesting features:
 
@@ -32,6 +31,8 @@ Flappy Bird Java was a university project where I practices things like:
 - RMI
 
 - Database conection
+
+![alt text](https://raw.githubusercontent.com/jcontrerasroberto/FlappyBirdJava/master/Captures/game.png)
 
 ## How to play
 
