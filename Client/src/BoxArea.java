@@ -1,22 +1,4 @@
-/*
- * PROYECTO FINAL DE PROGRAMACIÓN ORIENTADA A OBJETOS
- * FLAPPY BIRD (MULTIPLAYER Y SINGLEPLAYER)
- * 
- * 2CM3
- * 
- * INTEGRANTES:
- * 
- * CONTRERAS BARRITA JOSÉ ROBERTO
- * CONTRERAS MENDEZ BRANDON
- * FONSECA RAMOS ANGEL GABRIEL
- * TOLEDO ESPINOSA CRISTINA ALINE
- * 
- * */
 
- /*
- * CLASE BoxArea
- * Esta clase crea un box area el cual define los limites de los objetos. Es simplemente un rectángulo.
- * */
  
 import java.awt.Rectangle;
 
