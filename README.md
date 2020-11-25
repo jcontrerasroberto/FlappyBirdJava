@@ -14,7 +14,7 @@ This is a Flappy Bird clone coded in Java with some interesting features:
 
 - Multiplayer mode
 
-Flappy Bird Java was a university project where I practices things like: 
+Flappy Bird Java was a university project where I practiced things like: 
 
 - Serialization
 
