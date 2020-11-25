@@ -1,7 +1,7 @@
 # Flappy Bird JAVA
 
 ![alt text](https://raw.githubusercontent.com/jcontrerasroberto/FlappyBirdJava/master/Captures/menu.png)
-![alt text](https://raw.githubusercontent.com/jcontrerasroberto/FlappyBirdJava/master/Captures/menu.png)
+![alt text](https://raw.githubusercontent.com/jcontrerasroberto/FlappyBirdJava/master/Captures/game.png)
 
 This is a Flappy Bird clone coded in Java with some interesting features:
 
