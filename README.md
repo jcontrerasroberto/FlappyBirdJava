@@ -1,4 +1,5 @@
 # Flappy Bird JAVA
+Click in the image to watch a demo of the game
 
 [![Demo](https://raw.githubusercontent.com/jcontrerasroberto/FlappyBirdJava/master/Captures/menu.png)](https://drive.google.com/file/d/1yGvt_zAGwoILMri2Hxh-lxYM6Ap3RC_Y/view "Demo")
 
